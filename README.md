@@ -24,4 +24,4 @@ This repository contains a ready-to-use automation script and configuration for 
 bash protect-main-branch.sh
 ```
 
-✅ Done! Your repo is now protected like a pro DevOps engineer 🚀
+
