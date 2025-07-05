@@ -1,2 +1,27 @@
-# iac-terraform-azure
-Infrastructure as Code (IaC) project using Terraform to provision and manage complete Azure infrastructure, including Virtual Networks, Subnets, NSGs, VMs, and Key Vaults, with modular and reusable architecture.
+# 🔐 GitHub Branch Protection Template
+
+This repository contains a ready-to-use automation script and configuration for applying **branch protection rules** on GitHub using the CLI.
+
+## 🔧 What It Does
+
+- Applies branch protection rules to the `main` branch
+- Requires PR review, status checks, disables force push/deletion
+- Adds CODEOWNERS to require review by specific users
+
+## 📂 Files Included
+
+- `.github/CODEOWNERS` → All PRs need `@mohit-maharan` approval
+- `.github/branch-protection.md` → Rule documentation
+- `protect-main-branch.sh` → Automation script using `gh`
+
+## 🚀 Usage
+
+1. Install GitHub CLI: `winget install --id GitHub.cli`
+2. Login: `gh auth login`
+3. Run the script:
+
+```bash
+bash protect-main-branch.sh
+```
+
+✅ Done! Your repo is now protected like a pro DevOps engineer 🚀
