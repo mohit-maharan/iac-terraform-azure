@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Replace with your GitHub username and repo name
-USERNAME="mohit-maharan"
+USERNAME="xyz"
 REPO="todo-app"
 BRANCH="main"
 
