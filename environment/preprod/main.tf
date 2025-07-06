@@ -14,14 +14,15 @@ module "azurerm_virtual_network" {
 }
 module "azurerm_subnet" {
 
+  for_each   = var.subnets
   depends_on = [module.azurerm_virtual_network]
   source     = "../../modules/azurerm_subnet"
 
-  subnet_name             = var.subnet_name
+  subnet_name             = each.value.name
   resource_group_name     = var.resource_group_name
   resource_group_location = var.resource_group_location
   virtual_network_name    = var.virtual_network_name
-  address_prefixes        = var.address_prefixes
+  address_prefixes        = each.value.address_prefixes
 }
 
 module "azurerm_mssql_server" {
@@ -38,20 +39,20 @@ module "azurerm_mssql_server" {
   sql_server_admin_password      = var.sql_server_admin_password
 }
 
-# module "azurerm_mssql_database" {
+module "azurerm_mssql_database" {
 
-#   depends_on = [module.azurerm_mssql_server]
-#   source     = "../../modules/azurerm_mssql_database"
+  depends_on = [module.azurerm_mssql_server]
+  source     = "../../modules/azurerm_mssql_database"
 
-#   sql_server_id               = module.azurerm_mssql_server.mssql_server
-#   mssql_database_name         = var.mssql_database_name
-#   mssql_database_collation    = var.mssql_database_collation
-#   mssql_database_license_type = var.mssql_database_license_type
-#   mssql_database_max_size_gb  = var.mssql_database_max_size_gb
-#   mssql_database_sku_name     = var.mssql_database_sku_name
-#   mssql_database_enclave_type = var.mssql_database_enclave_type
+  sql_server_id               = module.azurerm_mssql_server.mssql_server
+  mssql_database_name         = var.mssql_database_name
+  mssql_database_collation    = var.mssql_database_collation
+  mssql_database_license_type = var.mssql_database_license_type
+  mssql_database_max_size_gb  = var.mssql_database_max_size_gb
+  mssql_database_sku_name     = var.mssql_database_sku_name
+  mssql_database_enclave_type = var.mssql_database_enclave_type
 
-# }
+}
 
 data "azurerm_client_config" "current" {}
 # This module creates an Azure Key Vault with specified configurations.
@@ -94,4 +95,40 @@ module "azurerm_storage_account" {
   storage_account_tier             = var.storage_account_tier
   storage_account_replication_type = var.storage_account_replication_type
 
+
 }
+
+module "azurerm_storage_container" {
+
+  depends_on = [module.azurerm_storage_account]
+  source     = "../../modules/azurerm_storage_container"
+
+  storage_container_name = var.storage_container_name
+  storage_account_id     = module.azurerm_storage_account.storage_account_id
+  container_access_type  = var.container_access_type
+}
+
+module "azurerm_public_ip" {
+  depends_on              = [module.azurerm_resource_group]
+  source                  = "../../modules/azurerm_public_ip"
+  pip_name                = var.pip_name
+  resource_group_name     = var.resource_group_name
+  resource_group_location = var.resource_group_location
+  allocation_method       = var.allocation_method
+}
+
+module "azurerm_network_interface" {
+
+  depends_on = [module.azurerm_public_ip]
+  source     = "../../modules/azurerm_network_interface"
+
+  network_interface_name        = var.nic_name
+  resource_group_name           = var.resource_group_name
+  resource_group_location       = var.resource_group_location
+  ip_configuration_name         = var.ip_configuration_name
+  subnet_id                     = module.azurerm_subnet["subnet1"].subnet_id
+  private_ip_address_allocation = var.private_ip_address_allocation
+  public_ip_id                  = module.azurerm_public_ip.public_ip_id
+
+}
+
