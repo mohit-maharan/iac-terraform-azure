@@ -1,12 +1,7 @@
 terraform {
   required_version = ">= 1.12.2"
 
-  # backend "azurerm" {
-  #   resource_group_name  = "saini-rg"
-  #   storage_account_name = "sainistorage"
-  #   container_name       = "tfstate"
-  #   key                  = "preprod.terraform.tfstate"
-  # }
+
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
