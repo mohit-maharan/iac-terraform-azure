@@ -1,4 +1,4 @@
-# 🔐 GitHub Branch Protection Template
+# 🔐 GitHub Branch Protection Template12
 
 This repository contains a ready-to-use automation script and configuration for applying **branch protection rules** on GitHub using the CLI.
 
