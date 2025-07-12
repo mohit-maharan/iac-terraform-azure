@@ -1,3 +1,13 @@
+#subscription_id 
+
+variable "subscription_id" {
+  description = "The Azure subscription ID where resources will be created"
+  type        = string
+  
+}
+
+
+#Resource Group
 variable "resource_group_name" {
   description = "The name of the resource group"
   type        = string
@@ -6,6 +16,9 @@ variable "resource_group_location" {
   description = "The location of the resource group"
   type        = string
 }
+
+
+# Virtual Network
 variable "virtual_network_name" {
   description = "The name of the virtual network"
   type        = string
@@ -15,6 +28,7 @@ variable "address_space" {
   type        = list(string)
 }
 
+#sql server
 
 variable "sql_server_name" {
   description = "The name of the SQL server"
@@ -41,6 +55,9 @@ variable "sql_server_minimum_tls_version" {
 
 
 }
+
+# SQL Database
+
 variable "mssql_database_name" {
   description = "The name of the SQL Database."
   type        = string
@@ -77,6 +94,7 @@ variable "mssql_database_enclave_type" {
 #   type        = string
 
 # }
+# Key Vault
 
 variable "key_vault_name" {
   description = "The name of the Key Vault"
@@ -106,6 +124,7 @@ variable "key_vault_sku_name" {
   default     = "standard"
 }
 
+# Key Vault Secret
 
 variable "azurerm_key_vault_secret_name" {
   description = "The name of the Key Vault secret"
@@ -118,6 +137,7 @@ variable "azurerm_key_vault_secret_value" {
 
 }
 
+# Storage Account
 variable "storage_account_name" {
   description = "The name of the storage account."
   type        = string
@@ -134,6 +154,7 @@ variable "storage_account_replication_type" {
   type        = string
 
 }
+# Storage Container
 variable "storage_container_name" {
   description = "The name of the storage container."
   type        = string
@@ -143,13 +164,9 @@ variable "container_access_type" {
   description = "The access type of the storage container."
   type        = string
 }
-variable "subnets" {
-  description = "Map of Subnet"
-  type = map(object({
-    name             = string
-    address_prefixes = list(string)
-  }))
-}
+
+# Public IP Address
+
 
 variable "pip_name" {
   description = "The name of the public IP address."
@@ -162,22 +179,75 @@ variable "allocation_method" {
 
 
 }
-variable "nic_name" {
-  description = "The name of the network interface."
-  type        = string
+# variable "nic_name" {
+#   description = "The name of the network interface."
+#   type        = string
 
+# }
+
+# variable "ip_configuration_name" {
+#   description = "The name of the IP configuration for the network interface."
+#   type        = string
+# }
+
+# variable "private_ip_address_allocation" {
+#   description = "The private IP address allocation method (Static or Dynamic)."
+#   type        = string
+#   # default     = "Dynamic" # Default can be adjusted as needed
+# }
+# NSG
+# variable "nsg_name" {
+#   description = "The name of the network security group."
+#   type        = string
+  
+# }
+
+#  variable "security_rule_name" {
+#    description = "The name of the security rule."
+#    type        = string
+# }
+# variable "security_rule_priority" {
+#   description = "The priority of the security rule."
+#   type        = number
+# }
+# variable "security_rule_direction" {
+#   description = "The direction of the security rule (Inbound or Outbound)."
+#   type        = string
+# }
+# variable "security_rule_access" {
+#   description = "The access level of the security rule (Allow or Deny)."
+#   type        = string
+# }
+# variable "security_rule_protocol" {
+#   description = "The protocol of the security rule (TCP, UDP, etc.)."
+#   type        = string
+# }
+# variable "security_rule_source_port_range" {
+#   description = "The source port range for the security rule."
+#   type        = string
+# }
+# variable "security_rule_destination_port_range" {
+#   description = "The destination port range for the security rule."
+#   type        = string
+# }
+
+# variable "security_rule_destination_address_prefix" {
+#   description = "The destination address prefix for the security rule."
+#   type        = string
+# }
+variable "subnets" {
+  description = "The name of the subnet to be created."
+  type        = any
+  
 }
 
-variable "ip_configuration_name" {
-  description = "The name of the IP configuration for the network interface."
-  type        = string
+variable "nics" {
+type = any  
 }
 
-variable "private_ip_address_allocation" {
-  description = "The private IP address allocation method (Static or Dynamic)."
-  type        = string
-  # default     = "Dynamic" # Default can be adjusted as needed
+variable "nsgs" {
+  type = any
 }
-
-
-
+variable "nic_nsg_map" {
+  type = map(string)
+}
