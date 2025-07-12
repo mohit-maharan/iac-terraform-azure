@@ -14,15 +14,14 @@ module "azurerm_virtual_network" {
 }
 module "azurerm_subnet" {
 
-  for_each   = var.subnets
+
   depends_on = [module.azurerm_virtual_network]
   source     = "../../modules/azurerm_subnet"
 
-  subnet_name             = each.value.name
-  resource_group_name     = var.resource_group_name
-  resource_group_location = var.resource_group_location
-  virtual_network_name    = var.virtual_network_name
-  address_prefixes        = each.value.address_prefixes
+  subnets              = var.subnets
+  resource_group_name  = var.resource_group_name
+  virtual_network_name = var.virtual_network_name
+
 }
 
 module "azurerm_mssql_server" {
@@ -56,6 +55,8 @@ module "azurerm_mssql_database" {
 
 data "azurerm_client_config" "current" {}
 # This module creates an Azure Key Vault with specified configurations.
+
+
 module "azurerm_key_vault" {
 
   depends_on = [module.azurerm_resource_group]
@@ -71,8 +72,6 @@ module "azurerm_key_vault" {
   purge_protection_enabled    = var.purge_protection_enabled
   key_vault_sku_name          = var.key_vault_sku_name
   enabled_for_disk_encryption = var.enabled_for_disk_encryption
-
-
 }
 module "azurerm_key_secret" {
 
@@ -117,18 +116,26 @@ module "azurerm_public_ip" {
   allocation_method       = var.allocation_method
 }
 
+
+
 module "azurerm_network_interface" {
+
 
   depends_on = [module.azurerm_public_ip]
   source     = "../../modules/azurerm_network_interface"
 
-  network_interface_name        = var.nic_name
-  resource_group_name           = var.resource_group_name
-  resource_group_location       = var.resource_group_location
-  ip_configuration_name         = var.ip_configuration_name
-  subnet_id                     = module.azurerm_subnet["subnet1"].subnet_id
-  private_ip_address_allocation = var.private_ip_address_allocation
-  public_ip_id                  = module.azurerm_public_ip.public_ip_id
+  nics                    = var.nics
+  subnet_ids              = module.azurerm_subnet.subnet_ids
+  resource_group_name     = var.resource_group_name
+  resource_group_location = var.resource_group_location
+  nsg_ids                 = module.azurerm_network_security_group.nsg_ids
+  nic_nsg_map             = var.nic_nsg_map
 
 }
 
+module "azurerm_network_security_group" {
+  source                  = "../../modules/azurerm_network_security_group"
+  nsgs                    = var.nsgs
+  resource_group_name     = var.resource_group_name
+  resource_group_location = var.resource_group_location
+}
