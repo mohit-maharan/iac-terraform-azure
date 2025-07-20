@@ -30,65 +30,65 @@ variable "address_space" {
 
 #sql server
 
-variable "sql_server_name" {
-  description = "The name of the SQL server"
-  type        = string
-}
-variable "sql_server_version" {
-  description = "The version of the SQL server"
-  type        = string
-  default     = "12.0" # Default version can be adjusted as needed
+# variable "sql_server_name" {
+#   description = "The name of the SQL server"
+#   type        = string
+# }
+# variable "sql_server_version" {
+#   description = "The version of the SQL server"
+#   type        = string
+#   default     = "12.0" # Default version can be adjusted as needed
 
-}
-variable "sql_server_admin_login" {
-  description = "The administrator login for the SQL server"
-  type        = string
-}
-variable "sql_server_admin_password" {
-  description = "The administrator password for the SQL server"
-  type        = string
-  sensitive   = true
-}
-variable "sql_server_minimum_tls_version" {
-  description = "The minimum TLS version for the SQL server"
-  type        = string
+# }
+# variable "sql_server_admin_login" {
+#   description = "The administrator login for the SQL server"
+#   type        = string
+# }
+# variable "sql_server_admin_password" {
+#   description = "The administrator password for the SQL server"
+#   type        = string
+#   sensitive   = true
+# }
+# variable "sql_server_minimum_tls_version" {
+#   description = "The minimum TLS version for the SQL server"
+#   type        = string
 
 
-}
+# }
 
 # SQL Database
 
-variable "mssql_database_name" {
-  description = "The name of the SQL Database."
-  type        = string
+# variable "mssql_database_name" {
+#   description = "The name of the SQL Database."
+#   type        = string
 
-}
-variable "mssql_database_collation" {
-  description = "The collation of the SQL Database."
-  type        = string
+# }
+# variable "mssql_database_collation" {
+#   description = "The collation of the SQL Database."
+#   type        = string
 
-}
-variable "mssql_database_license_type" {
-  description = "The license type of the SQL Database."
-  type        = string
+# }
+# variable "mssql_database_license_type" {
+#   description = "The license type of the SQL Database."
+#   type        = string
 
-}
-variable "mssql_database_max_size_gb" {
-  description = "The maximum size of the SQL Database in GB."
-  type        = number
-  default     = 32
-}
-variable "mssql_database_sku_name" {
-  description = "The SKU name of the SQL Database."
-  type        = string
+# }
+# variable "mssql_database_max_size_gb" {
+#   description = "The maximum size of the SQL Database in GB."
+#   type        = number
+#   default     = 32
+# }
+# variable "mssql_database_sku_name" {
+#   description = "The SKU name of the SQL Database."
+#   type        = string
 
 
-}
-variable "mssql_database_enclave_type" {
-  description = "The enclave type of the SQL Database."
-  type        = string
+# }
+# variable "mssql_database_enclave_type" {
+#   description = "The enclave type of the SQL Database."
+#   type        = string
 
-}
+# }
 # variable "mssql_server" {
 #   description = "The ID of the SQL Server where the database will be created."
 #   type        = string
@@ -137,7 +137,7 @@ variable "azurerm_key_vault_secret_value" {
 
 }
 
-# Storage Account
+#Storage Account
 variable "storage_account_name" {
   description = "The name of the storage account."
   type        = string
@@ -250,4 +250,23 @@ variable "nsgs" {
 }
 variable "nic_nsg_map" {
   type = map(string)
+}
+variable "admin_username" {
+  type = string
+}
+variable "ssh_public_key_path" {
+  type = string
+}
+variable "vms" {
+  type = map(object({
+    name       = string
+    size       = string
+    nic_key    = string
+    zone       = optional(string)
+  }))
+  
+}
+variable "public_ip_id" {
+  type    = string
+  default = null
 }

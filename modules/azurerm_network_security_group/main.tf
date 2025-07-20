@@ -32,6 +32,9 @@ resource "azurerm_network_security_rule" "rules" {
   destination_address_prefix  = each.value.rule.destination_address_prefix
   resource_group_name         = var.resource_group_name
   network_security_group_name = each.value.nsg_name
+
+depends_on = [azurerm_network_security_group.nsgs]
+
 }
 
 

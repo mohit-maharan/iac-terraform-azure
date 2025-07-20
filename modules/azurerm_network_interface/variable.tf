@@ -34,3 +34,12 @@ variable "nsg_ids" {
 variable "nic_nsg_map" {
   type = map(string)
 }
+variable "public_ip_address_id" {
+  type = string
+  default = "null"
+}
+
+variable "public_ip_address_map" {
+  type    = map(string)
+  default = {}
+}

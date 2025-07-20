@@ -12,7 +12,7 @@ resource "azurerm_key_vault" "kv" {
 
   network_acls {
          bypass = "AzureServices"
-         default_action = "Deny"
+         default_action = "Allow" #This is not best practice consider using "Deny" for production environments
      }
      
   access_policy {

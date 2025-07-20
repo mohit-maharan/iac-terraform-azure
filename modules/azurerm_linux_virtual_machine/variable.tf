@@ -1,18 +1,28 @@
-variable "vm_name" {}
-variable "resource_group_name" {}
-variable "resource_group_location" {}
-variable "vm_size" {}
-variable "admin_username" {}
-variable "admin_password" {}
-variable "network_interface_id" {}
-variable "ssh_public_key_path" {}
-variable "caching" {}
-variable "storage_account_type" {}
-variable "publisher" {}
-variable "offer" {}
-variable "sku" {}
-variable "source_image_version" {}
-variable "disable_password_authentication" {}
-  
-  
+variable "vms" {
+  type = map(object({
+    name       = string
+    size       = string
+    nic_key    = string
+    zone       = optional(string)
+  }))
+}
 
+variable "nic_ids" {
+  type = map(string)
+}
+
+variable "admin_username" {
+  type = string
+}
+
+variable "ssh_public_key_path" {
+  type = string
+}
+
+variable "resource_group_name" {
+  type = string
+}
+
+variable "resource_group_location" {
+  type = string
+}
