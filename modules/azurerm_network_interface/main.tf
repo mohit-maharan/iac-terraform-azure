@@ -1,12 +1,8 @@
 resource "azurerm_network_interface" "nic" {
-
-  for_each = var.nics
+  for_each            = var.nics
   name                = each.value.name
   location            = var.resource_group_location
   resource_group_name = var.resource_group_name
-
- 
-
 
   ip_configuration {
     name                          = "internal"
@@ -14,7 +10,7 @@ resource "azurerm_network_interface" "nic" {
     private_ip_address_allocation = "Static"
     private_ip_address            = each.value.private_ip
 
-    
+    public_ip_address_id = try(var.public_ip_address_map[each.key], null)
   }
 }
 
